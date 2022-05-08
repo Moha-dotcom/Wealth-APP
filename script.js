@@ -5,7 +5,7 @@ const main = document.getElementById('main');
 const adduser = document.querySelector('#add-user');
 const double = document.querySelector('#double');
 const showmillionaire = document.querySelector('#show-millionaires');
-const sort = document.querySelector('#sort');
+const sorting= document.querySelector('#sorting');
 const calculateWealth = document.querySelector('#calculate-wealth');
 
 
@@ -51,7 +51,7 @@ function addData(personData){
 
 function UpdateDOM(providedData = data) {
     // clear main div
-    main.innerHTML =' <h2><strong >Person</strong>Wealth</h2>'
+    main.innerHTML =' <h3><strong >Person</strong>Wealth</h3>'
     //Loop through Person data
     providedData.forEach((item) => {
 
@@ -87,13 +87,49 @@ function  doubleMoney(){
 
 
 
+function sortedList (){
+
+    data = data.sort(function (a, b) {
+        return b.money - a.money;
+    })
+
+    UpdateDOM();
+}
+
+
+
+function showmillionareFilter(){
+    data = data.filter(function (x){
+        return x.money > 1000000;
+    })
+
+    UpdateDOM()
+}
+
+
+function CalculateAllWealth() {
+
+    const wealth = data.reduce((accum, user) =>
+        (accum += user.money), 0 );
+
+
+
+    const wealthEle = document.createElement('div');
+    wealthEle.innerHTML = `<h3>Total Wealth :  <strong>${formatMoney(wealth)}</strong></h3>`
+    main.appendChild(wealthEle);
+
+
+}
 
 
 
 
 
 
+calculateWealth.addEventListener('click', CalculateAllWealth)
 
+showmillionaire.addEventListener('click', showmillionareFilter)
+sorting.addEventListener('click', sortedList)
 double.addEventListener('click' , doubleMoney);
 adduser.addEventListener('click', getRandomUser);
 
